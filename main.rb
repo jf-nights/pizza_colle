@@ -21,14 +21,31 @@ end
 post '/regist_user' do
   user_name = @params[:user_name]
   password = @params[:password]
-  user_salt = BCrypt::Engine.generate_salt
+  
+  # 重複チェック
+  tmp = []
+  coll.find('name' => user_name).each {|row| tmp << row}
+  
+  if tmp != []
+    # 重複してる
+    @duplicate = true
+    erb :regist_form
+  else
+    # 登録
+    user_salt = BCrypt::Engine.generate_salt
+    doc = {
+      'name' => user_name,
+      'user_salt' => user_salt,
+    }
+    coll.insert(doc)
+    
+    @user = user_name
+    erb :regist_done
+  end
   #password_hash = BCrypt::Engine.hash_secret(password, user_salt)
   #これで照合するらしい
-  
-  # 登録
-  doc = {
-    'name' => user_name,
-    'password_salt' => password_salt,
-  }
-  coll.insert(doc)
+end
+
+get '/:name/home' do
+  erb :home
 end

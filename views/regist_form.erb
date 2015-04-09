@@ -4,6 +4,9 @@
     <fieldset>
       <legend>登録</legend>
       <div class="form-group">
+        <% if @duplicate == true %>
+          <p>ソビエトロシアでは登録が既にその名前されている!</p>
+        <% end %>
         <label class="col-sm-2" for="user_name">名前</label>
         <div class="co-sm-10">
           <input type="text" class="form-control" name="user_name" pattern="^[0-9A-Za-z]+$" placeholder="user name" required>
