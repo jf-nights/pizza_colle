@@ -10,13 +10,21 @@ coll = db.collection('test')
 enable :sessions
 set :session_secret, "My session secret"
 
+before do
+  @session = session
+end
+
 get '/' do
+  p session
   @title = 'ピザ・コレクション'
   erb :index
 end
 
 get '/login_form' do
   @title = 'ログイン画面'
+  if session[:user]
+    redirect "#{session[:user]}/home"
+  end
   erb :login_form
 end
 
