@@ -13,6 +13,25 @@ get '/' do
   erb :index
 end
 
+get '/login_form' do
+  @title = 'ログイン画面'
+  erb :login_form
+end
+
+post '/login' do
+  user_name = @params[:user_name]
+  password = @params[:password]
+
+  # 照合
+  tmp_user = nil
+  coll.find('name' => user_name).each {|row| tmp_user = row.to_h}
+  if tmp_user != nil && tmp_user['password_hash'] == BCrypt::Engine.hash_secret(password, tmp_user['user_salt'])
+    redirect "#{user_name}/home"
+  else
+    redirect '/login_form'
+  end
+end
+
 get '/regist_form' do
   @title = '着任式'
   erb :regist_form
@@ -33,16 +52,17 @@ post '/regist_user' do
   else
     # 登録
     user_salt = BCrypt::Engine.generate_salt
+    password_hash = BCrypt::Engine.hash_secret(password, user_salt)
     doc = {
       'name' => user_name,
       'user_salt' => user_salt,
+      'password_hash' => password_hash
     }
     coll.insert(doc)
     
     @user = user_name
     erb :regist_done
   end
-  #password_hash = BCrypt::Engine.hash_secret(password, user_salt)
   #これで照合するらしい
 end
 
