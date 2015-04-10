@@ -7,9 +7,11 @@ connection = Mongo::Connection.new('localhost', 27272)
 db = connection.db('pizza_colle')
 coll = db.collection('test')
 
+# session を使う
 enable :sessions
 set :session_secret, "My session secret"
 
+# ページの方でもsession を使えるように
 before do
   @session = session
 end
@@ -20,6 +22,7 @@ get '/' do
   erb :index
 end
 
+# ログイン画面
 get '/login_form' do
   @title = 'ログイン画面'
   if session[:user]
@@ -28,8 +31,8 @@ get '/login_form' do
   erb :login_form
 end
 
+# ログインの時
 post '/session' do
-
   if session[:user]
     redirect "#{session[:user]}/home"
   end
@@ -47,11 +50,23 @@ post '/session' do
   end
 end
 
+# ログアウトの時
+get '/session' do
+  if session[:user] == nil
+    redirect '/'
+  end
+
+  session.clear
+  redirect '/'
+end
+
+# ユーザー登録画面
 get '/regist_form' do
   @title = '着任式'
   erb :regist_form
 end
 
+# 登録処理
 post '/regist_user' do
   user_name = @params[:user_name]
   password = @params[:password]
@@ -81,6 +96,7 @@ post '/regist_user' do
   #これで照合するらしい
 end
 
+# ユーザーのホーム画面
 get '/:name/home' do
   if session[:user] == nil
     redirect '/login_form'

@@ -15,20 +15,19 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li>
-            <% if @session == nil %>
+            <% if @session[:user] == nil %>
               <a href="/">Home</a>
             <% else %>
               <a href="<%= @session[:user] %>/home">Home</a>
             <% end %>
           </li>
           <li><a href="#">Pizza</a></li>
-        </ul>
-        <ul class="nav navbar-nav">
+          <li><a href="/session">Logout</a></li>
           <li>
-            <% if @session == nil %>
-              Welcome, anonymous !
+            <% if @session[:user] == nil %>
+              <a href="#">Welcome, anonymous !</a>
             <% else %>
-              Welcome, <%= @session[:user] %>
+              <a href="#">Welcome, <%= @session[:user] %></a>
             <% end %>
           </li>
         </ul>
