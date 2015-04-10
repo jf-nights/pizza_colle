@@ -1,21 +1,18 @@
-<div id="login_form">
+<div class="login">
   <h2>ログインでーす</h2>
   <form action="/session" method="post" class="form-horizontal">
     <fieldset>
-      <legend>ログイン</legend>
       <div class="form-group">
-        <label class="col-sm-2" for="user_name">名前</label>
         <div class="co-sm-10">
           <input type="text" class="form-control" name="user_name" pattern="^[0-9A-Za-z]+$" placeholder="user name" required>
         </div>
       </div>
       <div class="form-group">
-        <label class="col-sm-2" for="pass">パスワード</label>
         <div class="co-sm-10">
           <input type="password" class="form-control" name="password" placeholder="password" required>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">ログイン!!!</button>
+      <button type="submit" class="btn btn-primary">ログイン!!</button>
     </fieldset>
   </form>
 </div>

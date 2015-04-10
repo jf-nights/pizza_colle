@@ -18,7 +18,7 @@
             <% if @session[:user] == nil %>
               <a href="/">Home</a>
             <% else %>
-              <a href="<%= @session[:user] %>/home">Home</a>
+              <a href="/<%= @session[:user] %>/home">Home</a>
             <% end %>
           </li>
           <li><a href="#">Pizza</a></li>

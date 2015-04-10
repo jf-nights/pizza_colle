@@ -90,8 +90,8 @@ post '/regist_user' do
     }
     coll.insert(doc)
     
-    @user = user_name
-    erb :regist_done
+    session[:user] = user_name
+    redirect "/#{user_name}/home"
   end
   #これで照合するらしい
 end
