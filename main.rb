@@ -7,6 +7,8 @@ connection = Mongo::Connection.new('localhost', 27272)
 db = connection.db('pizza_colle')
 coll = db.collection('test')
 
+enable :sessions
+set :session_secret, "My session secret"
 
 get '/' do
   @title = 'ピザ・コレクション'
@@ -18,7 +20,11 @@ get '/login_form' do
   erb :login_form
 end
 
-post '/login' do
+post '/session' do
+
+  if session[:user]
+    redirect "#{session[:user]}/home"
+  end
   user_name = @params[:user_name]
   password = @params[:password]
 
@@ -26,6 +32,7 @@ post '/login' do
   tmp_user = nil
   coll.find('name' => user_name).each {|row| tmp_user = row.to_h}
   if tmp_user != nil && tmp_user['password_hash'] == BCrypt::Engine.hash_secret(password, tmp_user['user_salt'])
+    session[:user] = user_name
     redirect "#{user_name}/home"
   else
     redirect '/login_form'
@@ -67,5 +74,9 @@ post '/regist_user' do
 end
 
 get '/:name/home' do
-  erb :home
+  if session[:user] == nil
+    redirect '/login_form'
+  else
+    erb :home
+  end
 end
