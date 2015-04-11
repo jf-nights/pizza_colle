@@ -16,17 +16,26 @@ before do
   @session = session
 end
 
+# helper!!!!!!
+helpers do
+  def check_session
+    if session[:user] == nil
+      redirect '/login_form'
+    end
+  end
+end
+
 get '/' do
   p session
   @title = 'ピザ・コレクション'
   erb :index
 end
-
+# ---------- ログイン関連 ----------
 # ログイン画面
 get '/login_form' do
   @title = 'ログイン画面'
   if session[:user]
-    redirect "#{session[:user]}/home"
+    redirect "/home"
   end
   erb :login_form
 end
@@ -34,7 +43,7 @@ end
 # ログインの時
 post '/session' do
   if session[:user]
-    redirect "#{session[:user]}/home"
+    redirect "/home"
   end
   user_name = @params[:user_name]
   password = @params[:password]
@@ -44,7 +53,7 @@ post '/session' do
   coll.find('name' => user_name).each {|row| tmp_user = row.to_h}
   if tmp_user != nil && tmp_user['password_hash'] == BCrypt::Engine.hash_secret(password, tmp_user['user_salt'])
     session[:user] = user_name
-    redirect "#{user_name}/home"
+    redirect "/home"
   else
     redirect '/login_form'
   end
@@ -91,16 +100,21 @@ post '/regist_user' do
     coll.insert(doc)
     
     session[:user] = user_name
-    redirect "/#{user_name}/home"
+    redirect "/home"
   end
   #これで照合するらしい
 end
 
+
+# ---------- ユーザーページ! ----------
 # ユーザーのホーム画面
-get '/:name/home' do
-  if session[:user] == nil
-    redirect '/login_form'
-  else
-    erb :home
-  end
+get '/home' do
+  check_session()
+  erb :home
+end
+
+# ピッツァ
+get '/pizza' do
+  check_session()
+  erb :pizza
 end
