@@ -120,3 +120,9 @@ get '/pizza' do
   @title = 'ピッツァ'
   erb :pizza
 end
+
+# ---------- FAQ ----------
+get '/faq' do
+  @title = 'FAQ'
+  erb :faq
+end
