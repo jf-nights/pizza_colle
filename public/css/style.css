@@ -1,0 +1,15 @@
+dl {
+  width: 200px;
+  float: left;
+  margin: 20px;
+}
+
+dd {
+  margin-top: 12px;
+}
+
+img {
+  -webkit-box-shadow: 5px 5px 10px 2px rgba(0,0,0,.5);
+  -moz-box-shadow: 5px 5px 10px 2px rgba(0,0,0,.5);
+  box-shadow: 5px 5px 10px 2px rgba(0,0,0,.5);
+}
