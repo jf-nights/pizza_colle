@@ -18,7 +18,12 @@ end
 
 # helper!!!!!!
 helpers do
-  def check_session
+  def check_redirect_home
+    if session[:user]
+      redirect '/home'
+    end
+  end
+  def check_redirect_login
     if session[:user] == nil
       redirect '/login_form'
     end
@@ -26,25 +31,22 @@ helpers do
 end
 
 get '/' do
-  p session
+  check_redirect_home()
   @title = 'ピザ・コレクション'
   erb :index
 end
 # ---------- ログイン関連 ----------
 # ログイン画面
 get '/login_form' do
+  check_redirect_home
   @title = 'ログイン画面'
-  if session[:user]
-    redirect "/home"
-  end
   erb :login_form
 end
 
 # ログインの時
 post '/session' do
-  if session[:user]
-    redirect "/home"
-  end
+  check_redirect_home
+
   user_name = @params[:user_name]
   password = @params[:password]
 
@@ -61,9 +63,7 @@ end
 
 # ログアウトの時
 get '/session' do
-  if session[:user] == nil
-    redirect '/'
-  end
+  check_redirect_login
 
   session.clear
   redirect '/'
@@ -109,12 +109,14 @@ end
 # ---------- ユーザーページ! ----------
 # ユーザーのホーム画面
 get '/home' do
-  check_session()
+  check_redirect_login()
+  @title = 'ホォム'
   erb :home
 end
 
 # ピッツァ
 get '/pizza' do
-  check_session()
+  check_redirect_login()
+  @title = 'ピッツァ'
   erb :pizza
 end
