@@ -21,6 +21,16 @@ h2.faq {
   border-left: 5px solid #0033FF;
 }
 
+h2.pizza {
+  margin: 20px;
+  padding: 10px;
+  border-left: 5px solid #FF0000;
+}
+
 p.faq {
   margin-left: 50px;
+}
+
+div.pizzas {
+  margin: 0 auto;
 }
