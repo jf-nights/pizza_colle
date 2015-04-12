@@ -1,0 +1,12 @@
+<div class="container login">
+  <h2 class="form-signin-heading">応援メッセージ</h2>
+  <form action="/send_message" method="post" >
+    <div class="form-group">
+      <input type="text" class="form-control" name="name"  placeholder="お名前" value="<%= @session[:user] %>" required>
+    </div>
+    <div class="form-group">
+      <textarea rows="4" class="form-control" name="message" placeholder="頑張ってください!!!" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">メッセージを送る</button>
+  </form>
+</div>

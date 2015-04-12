@@ -126,3 +126,9 @@ get '/faq' do
   @title = 'FAQ'
   erb :faq
 end
+
+# ---------- Support ----------
+get '/support' do
+  @title = 'サポォト'
+  erb :support
+end
