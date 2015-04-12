@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'mongo'
 require 'bcrypt'
+require 'carrier-pigeon'
 
 connection = Mongo::Connection.new('localhost', 27272)
 db = connection.db('pizza_colle')
@@ -131,4 +132,22 @@ end
 get '/support' do
   @title = 'サポォト'
   erb :support
+end
+
+post '/send_message' do
+  name = @params[:name]
+  message = @params[:message]
+  slack = open('/home/jf712/.slack/ako').read.split("\n")
+  pigeon = CarrierPigeon.new(:host => slack[0],
+                             :port => slack[1],
+                             :nick => 'ako',
+                             :password => slack[2],
+                             :channel => '#pizza-colle',
+                             :join => true
+                            )
+  message.gsub!("\n",' ')
+  pigeon.message('#pizza-colle', "@jf712 #{message} by #{name}")
+  pigeon.die
+
+  redirect 'support'
 end
