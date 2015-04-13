@@ -32,10 +32,10 @@ helpers do
 end
 
 get '/' do
-  check_redirect_home()
   @title = 'ピザ・コレクション'
-  erb :index
+  erb :top
 end
+
 # ---------- ログイン関連 ----------
 # ログイン画面
 get '/login_form' do
