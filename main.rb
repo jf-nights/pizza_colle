@@ -72,6 +72,7 @@ end
 
 # ユーザー登録画面
 get '/regist_form' do
+  check_redirect_home
   @title = '着任式'
   erb :regist_form
 end
