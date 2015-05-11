@@ -1,8 +1,9 @@
-require 'sinatra'
-require 'sinatra/reloader'
-require 'mongo'
-require 'bcrypt'
-require 'carrier-pigeon'
+#require 'sinatra'
+#require 'sinatra/reloader'
+#require 'mongo'
+#require 'bcrypt'
+#require 'carrier-pigeon'
+Bundler.require
 
 connection = Mongo::Connection.new('localhost', 27272)
 db = connection.db('pizza_colle')
