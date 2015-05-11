@@ -1,8 +1,9 @@
-require 'sinatra'
-require 'sinatra/reloader'
-require 'mongo'
-require 'bcrypt'
-require 'carrier-pigeon'
+#require 'sinatra'
+#require 'sinatra/reloader'
+#require 'mongo'
+#require 'bcrypt'
+#require 'carrier-pigeon'
+Bundler.require
 
 connection = Mongo::Connection.new('localhost', 27272)
 db = connection.db('pizza_colle')
@@ -32,10 +33,10 @@ helpers do
 end
 
 get '/' do
-  check_redirect_home()
   @title = 'ピザ・コレクション'
-  erb :index
+  erb :top
 end
+
 # ---------- ログイン関連 ----------
 # ログイン画面
 get '/login_form' do
@@ -72,6 +73,7 @@ end
 
 # ユーザー登録画面
 get '/regist_form' do
+  check_redirect_home
   @title = '着任式'
   erb :regist_form
 end
@@ -137,11 +139,11 @@ end
 post '/send_message' do
   name = @params[:name]
   message = @params[:message]
-  slack = open('/home/jf712/.slack/ako').read.split("\n")
-  pigeon = CarrierPigeon.new(:host => slack[0],
-                             :port => slack[1],
+  slack = open('/home/jf712/.slack/ako').read.chomp
+  pigeon = CarrierPigeon.new(:host => 'kmc-jp.xmpp.slack.com',
+                             :port => 6667,
                              :nick => 'ako',
-                             :password => slack[2],
+                             :password => slack,
                              :channel => '#pizza-colle',
                              :join => true
                             )
