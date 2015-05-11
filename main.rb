@@ -5,9 +5,11 @@
 #require 'carrier-pigeon'
 Bundler.require
 
-connection = Mongo::Connection.new('localhost', 27272)
-db = connection.db('pizza_colle')
-coll = db.collection('test')
+require_relative 'config'
+
+connection = Mongo::Connection.new(MONGO_HOST, MONGO_PORT)
+db = connection.db(MONGO_DB)
+coll = db.collection(MONGO_COLLECTION)
 
 # session を使う
 enable :sessions
@@ -139,16 +141,15 @@ end
 post '/send_message' do
   name = @params[:name]
   message = @params[:message]
-  slack = open('/home/jf712/.slack/ako').read.chomp
-  pigeon = CarrierPigeon.new(:host => 'kmc-jp.xmpp.slack.com',
-                             :port => 6667,
-                             :nick => 'ako',
-                             :password => slack,
-                             :channel => '#pizza-colle',
+  pigeon = CarrierPigeon.new(:host => IRC_HOST,
+                             :port => IRC_PORT,
+                             :nick => IRC_NICK,
+                             :password => IRC_PASS,
+                             :channel => IRC_CHAN,
                              :join => true
                             )
   message.gsub!("\n",' ')
-  pigeon.message('#pizza-colle', "@jf712 #{message} by #{name}")
+  pigeon.message(IRC_CHAN, IRC_MESS(message, name))
   pigeon.die
 
   redirect 'support'
