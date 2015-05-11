@@ -138,11 +138,11 @@ end
 post '/send_message' do
   name = @params[:name]
   message = @params[:message]
-  slack = open('/home/jf712/.slack/ako').read.split("\n")
-  pigeon = CarrierPigeon.new(:host => slack[0],
-                             :port => slack[1],
+  slack = open('/home/jf712/.slack/ako').read.chomp
+  pigeon = CarrierPigeon.new(:host => 'kmc-jp.xmpp.slack.com',
+                             :port => 6667,
                              :nick => 'ako',
-                             :password => slack[2],
+                             :password => slack,
                              :channel => '#pizza-colle',
                              :join => true
                             )

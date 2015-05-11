@@ -29,13 +29,15 @@
             <li><a href="/pizza">Pizza</a></li>
             <li><a href="/faq">FAQ</a></li>
             <li><a href="/support">Support</a></li>
-            <li><a href="/session">Logout</a></li>
+            <% if @session[:user] %>
+              <li><a href="/session">Logout</a></li>
+            <% end %>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
               <p class="navbar-text">
                 <% if @session[:user] == nil %>
-                  Welcome, anonymous !
+                  <a href="/login_form">Login</a>
                 <% else %>
                   Welcome, <%= @session[:user] %>
                 <% end %>
