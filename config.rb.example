@@ -1,0 +1,19 @@
+
+MONGO_HOST = 'localhost'
+MONGO_PORT = 27272
+MONGO_DB = 'pizza_colle'
+MONGO_COLLECTION = 'test'
+
+# bind port
+set :port, 4567
+# bind address
+set :bind, '0.0.0.0'
+
+IRC_HOST = 'kmc-jp.xmpp.slack.com'
+IRC_PORT = 6667
+IRC_NICK = 'ako'
+IRC_PASS = open('/home/jf712/.slack/ako').read.chomp
+IRC_CHAN = '#pizza-colle'
+def IRC_MESS(message, name)
+  "@jf712 #{message} by #{name}"
+end
