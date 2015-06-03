@@ -141,16 +141,18 @@ end
 post '/send_message' do
   name = @params[:name]
   message = @params[:message]
-  pigeon = CarrierPigeon.new(:host => IRC_HOST,
-                             :port => IRC_PORT,
-                             :nick => IRC_NICK,
-                             :password => IRC_PASS,
-                             :channel => IRC_CHAN,
-                             :join => true
-                            )
-  message.gsub!("\n",' ')
-  pigeon.message(IRC_CHAN, IRC_MESS(message, name))
-  pigeon.die
+  Thread.new do
+    pigeon = CarrierPigeon.new(:host => IRC_HOST,
+                               :port => IRC_PORT,
+                               :nick => IRC_NICK,
+                               :password => IRC_PASS,
+                               :channel => IRC_CHAN,
+                               :join => true
+                              )
+    message.gsub!("\n",' ')
+    pigeon.message(IRC_CHAN, IRC_MESS(message, name))
+    pigeon.die
+  end
 
   redirect 'support'
 end
